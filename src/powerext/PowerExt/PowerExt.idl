@@ -1,0 +1,50 @@
+// PowerExt.idl : IDL source for PowerExt
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (PowerExt.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(70858FB2-6FBD-422F-A484-2D8BAEABD4E6),
+	helpstring("IPowerContextMenu Interface"),
+	pointer_default(unique)
+]
+interface IPowerContextMenu : IUnknown{
+};
+[
+	object,
+	uuid(8BD7D792-396D-4824-B317-0BD6AE6AA94F),
+	helpstring("IPowerPropertySheet Interface"),
+	pointer_default(unique)
+]
+interface IPowerPropertySheet : IUnknown{
+};
+[
+	uuid(94249DC8-A0D1-4800-979D-D59CE559C06D),
+	version(1.0),
+	helpstring("PowerExt 1.0 Type Library")
+]
+library PowerExtLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(B2DDD3BC-398F-417E-8324-3E308FE42CC2),
+		helpstring("PowerContextMenu Class")
+	]
+	coclass PowerContextMenu
+	{
+		[default] interface IPowerContextMenu;
+	};
+	[
+		uuid(06DCCEBA-56BD-4E42-9F61-A35675FFF5AE),
+		helpstring("PowerPropertySheet Class")
+	]
+	coclass PowerPropertySheet
+	{
+		[default] interface IPowerPropertySheet;
+	};
+};

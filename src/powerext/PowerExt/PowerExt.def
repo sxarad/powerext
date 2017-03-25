@@ -1,0 +1,10 @@
+; PowerExt.def : Declares the module parameters.
+
+LIBRARY      "PowerExt.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE
+	DllInstall		PRIVATE
