@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# PowerExt build specific files
+powerext/Setup/*.msi
+powerext/Setup/*.zip
+
 # User-specific files
 *.suo
 *.user
