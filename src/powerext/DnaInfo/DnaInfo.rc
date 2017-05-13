@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (New Zealand)  resources
+// English (New Zealand) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENZ)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_NZ
@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,4,1
- PRODUCTVERSION 1,0,4,1
+ FILEVERSION 1,0,5,1
+ PRODUCTVERSION 1,0,5,1
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,12 +68,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", ".NET Assembly Info"
-            VALUE "FileVersion", "1.0.4.1"
+            VALUE "FileVersion", "1.0.5.1"
             VALUE "InternalName", "DnaInfo"
             VALUE "LegalCopyright", "Copyright (C) 2012 - Relogged"
             VALUE "OriginalFilename", "DnaInfo.exe"
             VALUE "ProductName", "PowerExt"
-            VALUE "ProductVersion", "1.0.4.1"
+            VALUE "ProductVersion", "1.0.5.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -82,7 +82,7 @@ BEGIN
     END
 END
 
-#endif    // English (New Zealand)  resources
+#endif    // English (New Zealand) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

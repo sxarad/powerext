@@ -274,6 +274,7 @@
       </PrecompiledHeader>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="DotNetAssembly.cpp" />
     <ClCompile Include="HexEncoder.cpp" />
     <ClCompile Include="PEImage.cpp" />
     <ClCompile Include="PowerContextMenu.cpp" />
@@ -312,9 +313,12 @@
     <Midl Include="PowerExt.idl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssemblyInfo.h" />
     <ClInclude Include="AssemblyName.h" />
     <ClInclude Include="dllmain.h" />
+    <ClInclude Include="DotNetAssembly.h" />
     <ClInclude Include="HexEncoder.h" />
+    <ClInclude Include="HResultDecoder.h" />
     <ClInclude Include="PEImage.h" />
     <ClInclude Include="PowerContextMenu.h" />
     <ClInclude Include="PowerPropertySheet.h" />
@@ -327,6 +331,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PowerExt.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="PowerExt.manifest">
+      <DeploymentContent>true</DeploymentContent>
+    </Manifest>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

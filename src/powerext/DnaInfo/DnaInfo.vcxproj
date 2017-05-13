@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\PowerExt\AssemblyName.cpp" />
+    <ClCompile Include="..\PowerExt\DotNetAssembly.cpp" />
     <ClCompile Include="DnaInfo.cpp" />
     <ClCompile Include="..\PowerExt\HexEncoder.cpp" />
     <ClCompile Include="..\PowerExt\PEImage.cpp" />
@@ -196,8 +197,11 @@
     <ClCompile Include="..\PowerExt\StrongName.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\PowerExt\AssemblyInfo.h" />
     <ClInclude Include="..\PowerExt\AssemblyName.h" />
+    <ClInclude Include="..\PowerExt\DotNetAssembly.h" />
     <ClInclude Include="..\PowerExt\HexEncoder.h" />
+    <ClInclude Include="..\PowerExt\HResultDecoder.h" />
     <ClInclude Include="..\PowerExt\PEImage.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

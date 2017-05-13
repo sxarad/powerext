@@ -55,8 +55,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,4,1
- PRODUCTVERSION 1,0,4,1
+ FILEVERSION 1,0,5,1
+ PRODUCTVERSION 1,0,5,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,12 +72,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "FileDescription", "PowerExt Extension for Windows Explorer"
-            VALUE "FileVersion", "1.0.4.1"
+            VALUE "FileVersion", "1.0.5.1"
             VALUE "InternalName", "PowerExt.dll"
             VALUE "LegalCopyright", "Copyright (C) 2012 - Relogged"
             VALUE "OriginalFilename", "PowerExt.dll"
             VALUE "ProductName", "PowerExt"
-            VALUE "ProductVersion", "1.0.4.1"
+            VALUE "ProductVersion", "1.0.5.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -93,6 +93,7 @@ END
 //
 
 IDR_POWEREXT            REGISTRY                "PowerExt.rgs"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -143,7 +144,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (New Zealand)  resources
+// English (New Zealand) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENZ)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_NZ
@@ -155,8 +156,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_NZ
 //
 
 IDR_POWERCONTEXTMENU    REGISTRY                "PowerContextMenu.rgs"
+
 IDR_POWERPROPERTYSHEET  REGISTRY                "PowerPropertySheet.rgs"
-#endif    // English (New Zealand)  resources
+
+#endif    // English (New Zealand) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

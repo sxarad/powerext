@@ -3,7 +3,8 @@
 #include <string>
 
 #include <cor.h>
-#include <objbase.h>
+#include <metahost.h>
+#pragma comment(lib, "mscoree.lib")
 
 /// <summary>
 /// AssemblyName class tries to find out Assembly information.

@@ -7,6 +7,8 @@
 #include "dllmain.h"
 #include "RegistrationManager.h"
 
+#include <VersionHelpers.h>
+
 // Used to determine whether the DLL can be unloaded by OLE
 STDAPI DllCanUnloadNow(void)
 {
@@ -20,13 +22,29 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 	return _AtlModule.DllGetClassObject(rclsid, riid, ppv);
 }
 
+BOOL IsWindowsXPorLater()
+{
+	OSVERSIONINFO osvi;
+	BOOL bIsWindowsXPorLater;
+
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+	GetVersionEx(&osvi);
+
+	bIsWindowsXPorLater =
+		((osvi.dwMajorVersion > 5) ||
+		((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion >= 1)));
+
+	return bIsWindowsXPorLater;
+}
 
 // DllRegisterServer - Adds entries to the system registry
 STDAPI DllRegisterServer(void)
 {
 	// If we're on NT, add ourselves to the list of approved shell extensions.
 
-	if (0 == (GetVersion() & 0x80000000UL))
+	if (IsWindowsXPorLater())
 	{
 		CRegKey reg;
 		LONG    lRet;
@@ -57,7 +75,7 @@ STDAPI DllUnregisterServer(void)
 {
 	// If we're on NT, remove ourselves from the list of approved shell extensions.
 
-	if (0 == (GetVersion() & 0x80000000UL))
+	if (IsWindowsXPorLater())
 	{
 		CRegKey reg;
 		LONG    lRet;

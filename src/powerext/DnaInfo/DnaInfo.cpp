@@ -2,44 +2,45 @@
 //
 
 #include "stdafx.h"
-#include "..\PowerExt\AssemblyName.h"
-
-#include <stdio.h>
+#include "../PowerExt/AssemblyName.h"
+#include "../PowerExt/HResultDecoder.h"
 
 #include <iostream>
 #include <string>
 
-using namespace std;
-
-
 int _tmain(int argc, TCHAR* argv[])
 {
-	wcout << _T("DnaInfo.exe (.NET Assembly Information)") << endl << endl;
+	std::wcout << _T("DnaInfo.exe (.NET Assembly Information)") << std::endl << std::endl;
 
 	if (argc < 2)
 	{
-		wcout << _T("Usage:") << endl;
-		wcout << endl;
-		wcout << _T("DnaInfo.exe <assembly>") << endl;
-		wcout << endl;
-		wcout << _T(" <assembly> = Path to a .NET dll or exe") << endl;
+		std::wcout << _T("Usage:") << std::endl;
+		std::wcout << std::endl;
+		std::wcout << _T("DnaInfo.exe <assembly>") << std::endl;
+		std::wcout << std::endl;
+		std::wcout << _T(" <assembly> = Path to a .NET dll or exe") << std::endl;
 		return 1;
 	}
 
-	wstring assemblyFile(argv[1]);
-	wcout << assemblyFile << endl << endl;
+	std::wstring assemblyFile(argv[1]);
+	std::wcout << assemblyFile << std::endl << std::endl;
 
 	try
 	{
 		AssemblyName assemblyName(assemblyFile);
 		std::wstring fullName = assemblyName.GetFullName();
-		std::wcout << endl << endl << _T("FullName:") << endl;
-		std::wcout << fullName << endl << endl;
+		std::wcout << std::endl << std::endl << _T("FullName:") << std::endl;
+		std::wcout << fullName << std::endl << std::endl;
 	}
 	catch (std::exception& e)
 	{
-		wcout << endl << _T("ERROR") << endl;
-		wcout << e.what() << endl << endl ;
+		std::wcout << L"Error: " << e.what() << std::endl << std::endl ;
+	}
+	catch (HResultDecoder e)
+	{
+		std::wcout << L"Error: " << e.GetErrorCode()
+			<< L" (" << e.GetHexErrorCode() << L") -- " 
+			<< e.GetErrorMessage() << std::endl << std::endl;
 	}
 
 	return 0;
