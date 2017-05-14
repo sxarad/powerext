@@ -7,6 +7,7 @@
 #include <cor.h>
 
 class AssemblyInfo;
+class StrongName;
 
 class DotNetAssembly
 {
@@ -16,9 +17,9 @@ public:
 	bool CreateMetaHost();
 	bool EnumerateRuntimes();
 	bool CreateRuntimeInfo();
-	bool CreateMetaDataDispenser();
+	bool CreateMetaDataDispenser(bool bSkipHostRuntime = false);
 	bool CreateAssemblyImport(std::wstring assemblyPath);
-	bool CreateAssemblyStrongName();
+	StrongName CreateAssemblyStrongName();
 	AssemblyInfo ReadAssemblyProperties();
 	static std::wstring GetVersionFromAssemblyMetaData(ASSEMBLYMETADATA& assemblyMetaData);
 	static std::wstring GetCultureFromAssemblyMetaData(ASSEMBLYMETADATA& assemblyMetaData);

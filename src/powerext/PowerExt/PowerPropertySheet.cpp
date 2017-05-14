@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include  <commctrl.h>
+#include "HResultDecoder.h"
 
 // CPowerPropertySheet
 
@@ -73,6 +74,12 @@ STDMETHODIMP CPowerPropertySheet::AddPages(LPFNADDPROPSHEETPAGE lpfnAddPageProc,
 			delete pAssemblyName;
 		return S_OK;
 	}
+	catch (HResultDecoder&)
+	{
+		if (pAssemblyName != NULL)
+			delete pAssemblyName;
+		return S_OK;
+	}
 
 	PROPSHEETPAGE  psp;
 	HPROPSHEETPAGE hPage;
@@ -84,7 +91,7 @@ STDMETHODIMP CPowerPropertySheet::AddPages(LPFNADDPROPSHEETPAGE lpfnAddPageProc,
 	psp.pszIcon     = 0;
 	psp.pszTitle    = _T(".NET");
 	psp.pfnDlgProc  = (DLGPROC)PropPageDlgProc;
-	psp.lParam      = (LPARAM)pAssemblyName;
+	psp.lParam      = (LPARAM)pAssemblyName; // Memory will be released by PropPageCallbackProc()
 	psp.pfnCallback = PropPageCallbackProc;
 	psp.pcRefParent = (UINT*) &_AtlModule.m_nLockCnt;
 

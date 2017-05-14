@@ -19,13 +19,17 @@
 /// <param name="path">The path of the Assembly.</param>
 AssemblyName::AssemblyName(const std::wstring& path)
 {
-	HANDLE hFile = CreateFile(path.c_str(), GENERIC_READ, 0, 0, OPEN_EXISTING, 0, 0); 
+	//MessageBox(nullptr, path.c_str(), L"PowerExt DEBUG", MB_OK);
+
+	HANDLE hFile = CreateFile(path.c_str(), GENERIC_READ, 0, 0, OPEN_EXISTING, 0, 0);
 	if (hFile == INVALID_HANDLE_VALUE) // Checks if the file exists
 	{
 		throw std::runtime_error("Error: File not found.");
 	}
 	
 	CloseHandle(hFile);
+
+	//MessageBox(nullptr, L"Before IsManagedImage", L"PowerExt DEBUG", MB_OK);
 
 	if (!PEImage::IsManagedImage(path)) // Makes sure the binary is a valid .NET assembly
 	{
@@ -34,24 +38,48 @@ AssemblyName::AssemblyName(const std::wstring& path)
 
 	_path = path;
 
+	//MessageBox(nullptr, L"Before CreateMetaHost", L"PowerExt DEBUG", MB_OK);
+
+	bool bSkipRuntimeHost = false;
 	DotNetAssembly dna;
 	if (!dna.CreateMetaHost())
-		throw HResultDecoder(dna.GetLastHResult());
+	{
+		if (dna.GetLastHResult() == E_NOTIMPL)
+		{
+			bSkipRuntimeHost = true;
+			//MessageBox(nullptr, L"Before CreateMetaDataDispenser(false)", L"PowerExt DEBUG", MB_OK);
+			dna.CreateMetaDataDispenser(bSkipRuntimeHost);
+		}
+		else
+		{
+			throw HResultDecoder(dna.GetLastHResult());
+		}
+	}
 
-	if (!dna.EnumerateRuntimes())
-		throw HResultDecoder(dna.GetLastHResult());
+	if (!bSkipRuntimeHost)
+	{
+		//MessageBox(nullptr, L"Before EnumerateRuntimes", L"PowerExt DEBUG", MB_OK); 
 
-	if (!dna.CreateRuntimeInfo())
-		throw HResultDecoder(dna.GetLastHResult());
+		if (!dna.EnumerateRuntimes())
+			throw HResultDecoder(dna.GetLastHResult());
 
-	if (!dna.CreateMetaDataDispenser())
-		throw HResultDecoder(dna.GetLastHResult());
+		//MessageBox(nullptr, L"Before CreateRuntimeInfo", L"PowerExt DEBUG", MB_OK);
+
+		if (!dna.CreateRuntimeInfo())
+			throw HResultDecoder(dna.GetLastHResult());
+
+		//MessageBox(nullptr, L"Before CreateMetaDataDispenser", L"PowerExt DEBUG", MB_OK);
+
+		if (!dna.CreateMetaDataDispenser())
+			throw HResultDecoder(dna.GetLastHResult());
+	}
+
+	//MessageBox(nullptr, L"Before CreateAssemblyImport", L"PowerExt DEBUG", MB_OK);
 
 	if (!dna.CreateAssemblyImport(path))
 		throw HResultDecoder(dna.GetLastHResult());
 
-	if (!dna.CreateAssemblyStrongName())
-		throw HResultDecoder(dna.GetLastHResult());
+	//MessageBox(nullptr, L"Before ReadAssemblyProperties", L"PowerExt DEBUG", MB_OK);
 
 	AssemblyInfo assemblyInfo = dna.ReadAssemblyProperties();
 	if (!assemblyInfo.IsOk())

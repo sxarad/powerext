@@ -1,6 +1,17 @@
-#include "StdAfx.h"
+#include "StdAfx.h" 
 #include "StrongName.h"
 #include "HexEncoder.h"
+
+/// <summary>
+/// Initializes a new instance of the StrongName class with the publicKey and publicKeyToken
+/// already initialized. Doesn't load mscoree library.
+/// </summary>
+/// <param name="publicKey">The publicKey of the Assembly.</param>
+/// <param name="publicKeyToken">The publicKeyToken of the Assembly.</param>
+StrongName::StrongName(std::wstring publicKey, std::wstring publicKeyToken)
+	: _publicKey(publicKey), _publicKeyToken(publicKeyToken)
+{
+}
 
 /// <summary>
 /// Initializes a new instance of the StrongName class with the specified assembly file path.
@@ -9,9 +20,9 @@
 StrongName::StrongName(std::wstring path)
 {
 	TCHAR wszFilePath[MAX_PATH];
-	PBYTE ppbStrongNameToken = 0; // Allocated by StrongNameTokenFromAssemblyEx API
+	PBYTE ppbStrongNameToken = nullptr; // Allocated by StrongNameTokenFromAssemblyEx API
 	ULONG pcbStrongNameToken = 0;  
-	PBYTE ppbPublicKeyBlob = 0;   // Allocated by StrongNameTokenFromAssemblyEx API
+	PBYTE ppbPublicKeyBlob = nullptr;   // Allocated by StrongNameTokenFromAssemblyEx API
 	ULONG pcbPublicKeyBlob = 0;
 
 	_publicKey = _T("");
@@ -23,15 +34,15 @@ StrongName::StrongName(std::wstring path)
 	if (hModule)
 	{    
 		StrongNameTokenFromAssemblyEx pStrongNameTokenFromAssemblyEx = 
-			(StrongNameTokenFromAssemblyEx)GetProcAddress(hModule, "StrongNameTokenFromAssemblyEx");
+			reinterpret_cast<StrongNameTokenFromAssemblyEx>(GetProcAddress(hModule, "StrongNameTokenFromAssemblyEx"));
 		
 		StrongNameFreeBuffer pStrongNameFreeBuffer = 
-			(StrongNameFreeBuffer)GetProcAddress(hModule, "StrongNameFreeBuffer");
+			reinterpret_cast<StrongNameFreeBuffer>(GetProcAddress(hModule, "StrongNameFreeBuffer"));
 		
 		StrongNameErrorInfo pStrongNameErrorInfo = 
-			(StrongNameErrorInfo)GetProcAddress(hModule, "StrongNameErrorInfo");
+			reinterpret_cast<StrongNameErrorInfo>(GetProcAddress(hModule, "StrongNameErrorInfo"));
 
-		if (pStrongNameTokenFromAssemblyEx != NULL && pStrongNameFreeBuffer != NULL) 
+		if (pStrongNameTokenFromAssemblyEx != nullptr && pStrongNameFreeBuffer != nullptr) 
 		{
 			wcscpy_s(wszFilePath, MAX_PATH, path.c_str());
 
@@ -80,7 +91,7 @@ StrongName::~StrongName()
 /// Get the Public Key for the Assembly.
 /// </summary>
 /// <returns>Returns Public Key of the Assembly</returns>.
-std::wstring StrongName::GetPublicKey()
+std::wstring StrongName::GetPublicKey() const
 {
 	return _publicKey;
 }
@@ -89,7 +100,7 @@ std::wstring StrongName::GetPublicKey()
 /// Get the Public Key Token for the Assembly.
 /// </summary>
 /// <returns>Returns Public Key Token of the Assembly</returns>.
-std::wstring StrongName::GetPublicKeyToken()
+std::wstring StrongName::GetPublicKeyToken() const
 {
 	return _publicKeyToken;
 }

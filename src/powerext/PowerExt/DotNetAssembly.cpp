@@ -84,13 +84,26 @@ bool DotNetAssembly::CreateRuntimeInfo()
 	return result;
 }
 
-bool DotNetAssembly::CreateMetaDataDispenser()
+bool DotNetAssembly::CreateMetaDataDispenser(bool bSkipHostRuntime)
 {
 	bool result = _metaDataDispenser != nullptr;
-	if (_runtimeInfo != nullptr && _metaDataDispenser == nullptr)
+	if (bSkipHostRuntime)
 	{
-		_hr = _runtimeInfo->GetInterface(CLSID_CorMetaDataDispenser, IID_IMetaDataDispenserEx, reinterpret_cast<LPVOID*>(&_metaDataDispenser));
-		result = SUCCEEDED(_hr);
+		// Legacy .NET 2.0 way of getting the IMetaDataDispenser reference
+		_hr = CoCreateInstance(CLSID_CorMetaDataDispenser, nullptr, CLSCTX_INPROC_SERVER,
+			IID_IMetaDataDispenser, reinterpret_cast<LPVOID*>(&_metaDataDispenser));
+		if (SUCCEEDED(_hr))
+		{
+			result = SUCCEEDED(_hr) && _metaDataDispenser != nullptr;
+		}
+	}
+	else
+	{
+		if (_runtimeInfo != nullptr && _metaDataDispenser == nullptr)
+		{
+			_hr = _runtimeInfo->GetInterface(CLSID_CorMetaDataDispenser, IID_IMetaDataDispenserEx, reinterpret_cast<LPVOID*>(&_metaDataDispenser));
+			result = SUCCEEDED(_hr);
+		}
 	}
 
 	return result;
@@ -109,16 +122,44 @@ bool DotNetAssembly::CreateAssemblyImport(std::wstring assemblyPath)
 	return result;
 }
 
-bool DotNetAssembly::CreateAssemblyStrongName()
+StrongName DotNetAssembly::CreateAssemblyStrongName()
 {
-	bool result = _strongName != nullptr;
-	if (_assemblyImport != nullptr && _strongName == nullptr)
+	if (_runtimeInfo != nullptr && _strongName == nullptr)
 	{
 		_hr = _runtimeInfo->GetInterface(CLSID_CLRStrongName, IID_ICLRStrongName, reinterpret_cast<LPVOID*>(&_strongName));
-		result = SUCCEEDED(_hr);
+		if (SUCCEEDED(_hr))
+		{
+			if (_strongName != nullptr)
+			{
+				PBYTE ppbStrongNameToken = nullptr;
+				ULONG pcbStrongNameToken = 0;
+				PBYTE ppbPublicKeyBlob = nullptr;
+				ULONG pcbPublicKeyBlob = 0;
+
+				_hr = _strongName->StrongNameTokenFromAssemblyEx(_assemblyPath.c_str(),
+					&ppbStrongNameToken,
+					&pcbStrongNameToken,
+					&ppbPublicKeyBlob,
+					&pcbPublicKeyBlob);
+				if (SUCCEEDED(_hr)) // 0x8013141b is returned if assembly doesn't have a strong name
+				{
+					std::wstring publicKey = HexEncoder::Encode(ppbPublicKeyBlob, pcbPublicKeyBlob);
+					std::wstring publicKeyToken = HexEncoder::Encode(ppbStrongNameToken, pcbStrongNameToken);
+					return StrongName(publicKey, publicKeyToken);
+				}
+			}
+		}
+	}
+	else
+	{
+		if (_runtimeInfo == nullptr && _strongName == nullptr)
+		{
+			// Legacy .NET 2.0 way of getting StrongName out
+			return StrongName(_assemblyPath);
+		}
 	}
 
-	return result;
+	return StrongName(L"", L"");
 }
 
 AssemblyInfo DotNetAssembly::ReadAssemblyProperties()
@@ -149,6 +190,13 @@ AssemblyInfo DotNetAssembly::ReadAssemblyProperties()
 			nullptr); // Flags.
 		if (SUCCEEDED(_hr))
 		{
+			std::wstring name = L"";
+			std::wstring version = L"";
+			std::wstring culture = L"";
+			std::wstring publicKey = L"";
+			std::wstring publicKeyToken = L"";
+			std::wstring processorArchitecture = L"";
+
 			// Allocate space for the arrays in the ASSEMBLYMETADATA structure.
 			if (pMetaData.cbLocale)
 				pMetaData.szLocale = new WCHAR[pMetaData.cbLocale];
@@ -160,35 +208,13 @@ AssemblyInfo DotNetAssembly::ReadAssemblyProperties()
 			_hr = _assemblyImport->GetAssemblyProps(mda, &public_key, &publicKeySize, &hashAlgo, static_cast<LPWSTR>(szName), cchName, &pchName, &pMetaData, &pdwAssemblyFlags);
 			if (SUCCEEDED(_hr))
 			{
-				if (_strongName == nullptr)
-				{
-					CreateAssemblyStrongName();
-				}
-
-				if (_strongName != nullptr)
-				{
-					PBYTE ppbStrongNameToken = nullptr;
-					ULONG pcbStrongNameToken = 0;
-					PBYTE ppbPublicKeyBlob = nullptr;
-					ULONG pcbPublicKeyBlob = 0;
-
-					_hr = _strongName->StrongNameTokenFromAssemblyEx(_assemblyPath.c_str(),
-						&ppbStrongNameToken,
-						&pcbStrongNameToken,
-						&ppbPublicKeyBlob,
-						&pcbPublicKeyBlob);
-					if (SUCCEEDED(_hr) || _hr == 0x8013141b) // 0x8013141b = Assembly doesn't have a strong name
-					{
-						std::wstring name = std::wstring(szName);
-						std::wstring version = GetVersionFromAssemblyMetaData(pMetaData);
-						std::wstring culture = GetCultureFromAssemblyMetaData(pMetaData);
-						std::wstring publicKey = HexEncoder::Encode(ppbPublicKeyBlob, pcbPublicKeyBlob);
-						std::wstring publicKeyToken = HexEncoder::Encode(ppbStrongNameToken, pcbStrongNameToken);
-						std::wstring processorArchitecture = GetProcessorArchitectureFromFlags(pdwAssemblyFlags);
-						AssemblyInfo assemblyInfo(name, version, culture, publicKey, publicKeyToken, processorArchitecture);
-						return assemblyInfo;
-					}
-				}
+				StrongName sn = CreateAssemblyStrongName();
+				name = std::wstring(szName);
+				version = GetVersionFromAssemblyMetaData(pMetaData);
+				culture = GetCultureFromAssemblyMetaData(pMetaData);
+				publicKey = sn.GetPublicKey();
+				publicKeyToken = sn.GetPublicKeyToken();
+				processorArchitecture = GetProcessorArchitectureFromFlags(pdwAssemblyFlags);
 			}
 
 			if (pMetaData.szLocale)
@@ -197,10 +223,13 @@ AssemblyInfo DotNetAssembly::ReadAssemblyProperties()
 				delete[] pMetaData.rProcessor;
 			if (pMetaData.rOS)
 				delete[] pMetaData.rOS;
+
+			AssemblyInfo assemblyInfo(name, version, culture, publicKey, publicKeyToken, processorArchitecture);
+			return assemblyInfo;
 		}
 	}
 
-	return AssemblyInfo();
+	return AssemblyInfo(); // Empty
 }
 
 /// <summary>

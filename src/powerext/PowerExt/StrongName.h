@@ -1,7 +1,6 @@
 #pragma once
 
 #include <windows.h>
-#include <iostream>
 #include <string>
 
 typedef BOOLEAN  (__stdcall *StrongNameTokenFromAssemblyEx)(LPCWSTR, BYTE**, ULONG*, BYTE**, ULONG*);
@@ -13,12 +12,13 @@ typedef HRESULT (__stdcall *StrongNameErrorInfo)();
 /// </summary>
 class StrongName
 {
-protected:
-	std::wstring _publicKey;
-	std::wstring _publicKeyToken;
 public:
+	StrongName(std::wstring publicKey, std::wstring publicKeyToken);
 	StrongName(std::wstring path);
 	~StrongName();
-	std::wstring GetPublicKey();
-	std::wstring GetPublicKeyToken();
+	std::wstring GetPublicKey() const;
+	std::wstring GetPublicKeyToken() const;
+private:
+	std::wstring _publicKey;
+	std::wstring _publicKeyToken;
 };
