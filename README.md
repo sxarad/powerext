@@ -12,7 +12,11 @@ Please send your feedback, bug reports and comments to: ssidpat at gmail dot com
 
 
 ## Installers
-PowerExt is packaged in a simple MSI installer. There are builds for both x86 and x64 editions of Windows in the zip file available for download. The x64 build is tested on 64bit Windows 7 with .NET 3.5 SP1 and x86 build is tested with Windows XP .NET 3.5 SP1.
+PowerExt is packaged in a simple MSI installer. There are builds for both x86 and x64 editions of Windows in the zip file available for download. 
+
+## Tested on:
+* Windows 7 Pro SP1 (x86 and x64) with .NET 3.5 
+* Windows 10 (x64) with .NET 4.7
 
 
 ## Requirements
@@ -44,9 +48,6 @@ PowerExt is licensed under the BSD 3-clause "New" or "Revised" License.
 
 ## Limitations
 * Being a new project this extension hasn't been tested thoroughly yet
-* Tested on:
-  * Windows 7 Pro SP1 with .NET 3.5 (x86 and x64)
-  * Windows 10 (x64) with .NET 4.7
 * Might not be able to identify all .NET assemblies
 * On some machines the extension isn't able to register the property sheet handlers and as a result you might not see the .NET tab
 
