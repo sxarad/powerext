@@ -48,9 +48,9 @@ PowerExt is licensed under the BSD 3-clause "New" or "Revised" License.
 
 ## Limitations
 * Being a new project this extension hasn't been tested thoroughly yet
-* Tested on...
-** Windows 7 Pro SP1 with .NET 3.5 (x86 and x64)
-** Windows 10 (x64) with .NET 4.7
+* Tested on:
+  * Windows 7 Pro SP1 with .NET 3.5 (x86 and x64)
+  * Windows 10 (x64) with .NET 4.7
 * Might not be able to identify all .NET assemblies
 * On some machines the extension isn't able to register the property sheet handlers and as a result you might not see the .NET tab
 
