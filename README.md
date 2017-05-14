@@ -20,12 +20,11 @@ PowerExt is packaged in a simple MSI installer. There are builds for both x86 an
 
 
 ## Requirements
-# Microsoft Visual C++ 2015 Redistributable is required. Chances are you already have this on you machine. You can always download it from Microsoft's download center: x86 or x64.
-# .NET Framework - Although PowerExt itself doesn't use any managed code the unmanaged APIs that it uses are installed by .NET Framework so you will need a version of .NET Framework. 
+1. Microsoft Visual C++ 2015 Redistributable is required. Chances are you already have this on you machine. You can always download it from Microsoft's download center: x86 or x64.
+2. .NET Framework - Although PowerExt itself doesn't use any managed code the unmanaged APIs that it uses are installed by .NET Framework so you will need a version of .NET Framework. 
 
 
 ## Screenshot
-https://raw.github.com/ssidpat/powerext/blob/master/LICENSE
 ![](img/PowerExt-Screenshot-01.png?raw=true)
 
 
@@ -35,8 +34,8 @@ https://raw.github.com/ssidpat/powerext/blob/master/LICENSE
 
 
 ## Files
-# PowerExt.dll - The main add-in or extension dll
-# DnaInfo.exe - .NET Assembly Info (Diagnostics tool)
+1. PowerExt.dll - The main add-in or extension dll
+2. DnaInfo.exe - .NET Assembly Info (Diagnostics tool)
 
 
 ## How does it work?
