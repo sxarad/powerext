@@ -1,9 +1,5 @@
-# powerext
-PowerExt - Developer Tools
-
-
-## Project Description
-PowerExt can display assembly version, assembly name, public key, strong name etc in Windows Explorer. It's a Windows Explorer extension written in C++. For .NET Assemblies (.dll and .exe files) it adds an additional .NET tab to the Windows Explorer's File Properties dialog.
+# PowerExt - Developer Tools
+PowerExt can display assembly version, assembly name, public key, strong name etc in the File Properties dialog. It's a Windows File Explorer that is written in C++. For .NET Assemblies (.dll and .exe files) it adds an additional .NET tab to the Windows Explorer's File Properties dialog.
 
 
 ## v1.0 (Alpha 5) released (14th May 2017)
@@ -20,8 +16,8 @@ PowerExt is packaged in a simple MSI installer. There are builds for both x86 an
 
 
 ## Requirements
-1. Microsoft Visual C++ 2015 Redistributable is required. Chances are you already have this on you machine. You can always download it from Microsoft's download center: x86 or x64.
-2. .NET Framework - Although PowerExt itself doesn't use any managed code the unmanaged APIs that it uses are installed by .NET Framework so you will need a version of .NET Framework. 
+1. [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=53587 "Visual C++ 2015 Redistributable") is required. Chances are you already have this on you machine.
+2. .NET Framework - Although PowerExt itself doesn't use any managed code the unmanaged APIs that it uses are installed by .NET Framework so you will need a version of .NET Framework. (The extension has been tested with .NET 3.5 and 4.7) 
 
 
 ## Screenshot
