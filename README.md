@@ -2,19 +2,18 @@
 PowerExt can display assembly version, assembly name, public key, strong name etc in the File Properties dialog. It's a Windows File Explorer that is written in C++. For .NET Assemblies (.dll and .exe files) it adds an additional .NET tab to the Windows Explorer's File Properties dialog.
 
 
-## v1.0 (Alpha 5) released (14th May 2017)
+## v1.0 (Alpha 5) released on 14th May 2017
+[Download PowerExt v1.0.5.1 (Alpha 5)](https://github.com/ssidpat/powerext/releases/download/v1.0.5.1/PowerExt-1.0.5.1.Alpha.5.zip)
+
 Release notes:
 1. Project and source code permanently moved from CodePlex to GitHub
 2. Code updated to work with either .NET 2.x or .NET 4.x frameworks
 3. Both 32bit (x86) and 64bit (x64) installer packages are included in the latest download
 
-Please send your feedback, bug reports and comments to: ssidpat at gmail dot com
-
-
-## Installers
 PowerExt is packaged in a simple MSI installer. There are builds for both x86 and x64 editions of Windows in the zip file available for download. 
 
-[Download PowerExt v1.0.5.1 (Alpha 5)](https://github.com/ssidpat/powerext/releases/download/v1.0.5.1/PowerExt-1.0.5.1.Alpha.5.zip)
+Please send your feedback, bug reports and comments to: ssidpat at gmail dot com
+
 
 ## Tested on:
 * Windows 7 Pro SP1 (x86 and x64) with .NET 3.5 
