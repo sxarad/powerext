@@ -14,6 +14,8 @@ Please send your feedback, bug reports and comments to: ssidpat at gmail dot com
 ## Installers
 PowerExt is packaged in a simple MSI installer. There are builds for both x86 and x64 editions of Windows in the zip file available for download. 
 
+[Download PowerExt v1.0.5.1 (Alpha 5)](https://github.com/ssidpat/powerext/releases/download/v1.0.5.1/PowerExt-1.0.5.1.Alpha.5.zip)
+
 ## Tested on:
 * Windows 7 Pro SP1 (x86 and x64) with .NET 3.5 
 * Windows 10 (x64) with .NET 4.7
