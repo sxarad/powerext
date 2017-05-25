@@ -1,5 +1,5 @@
 # PowerExt - Developer Tools
-PowerExt can display assembly version, assembly name, public key, strong name etc in the File Properties dialog. It's a Windows File Explorer that is written in C++. For .NET Assemblies (.dll and .exe files) it adds an additional .NET tab to the Windows Explorer's File Properties dialog.
+PowerExt can display assembly version, assembly name, public key, strong name etc in the File Properties dialog. It's a Windows File Explorer add-in that is written in C++. For .NET Assemblies (.dll and .exe files) it adds an additional .NET tab to the Windows Explorer's File Properties dialog.
 
 
 ## v1.0 (Alpha 5) released on 14th May 2017
